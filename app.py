@@ -519,7 +519,7 @@ elif page == "🤖 Model Training":
                     values = [results[model_name]['accuracy'],
                              results[model_name]['precision'],
                              results[model_name]['recall'],
-                             results[model_name]['f1'],
+                             results[model_name]['f1_score'],
                              results[model_name]['roc_auc']]
                     
                     fig.add_trace(go.Scatterpolar(
@@ -678,4 +678,5 @@ elif page == "📈 Model Evaluation":
             fig.add_shape(type="rect",
 
                 x0=0, y0=0.5, x1=10)
+
 
