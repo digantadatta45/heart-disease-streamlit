@@ -68,12 +68,20 @@ def load_raw_data():
         url = "https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/main/heart.csv"
         df = pd.read_csv(url)
         
-        # Convert the 'Type' column to string to avoid PyArrow errors
+        # Handle the 'Type' column for PyArrow compatibility
         if 'Type' in df.columns:
-            df['Type'] = df['Type'].astype(str)
+            # Convert to string and handle any null values
+            df['Type'] = df['Type'].fillna('Unknown').astype(str)
         else:
             # If Type column doesn't exist, create it from ChestPainType
-            df['Type'] = df['ChestPainType'].astype(str) if 'ChestPainType' in df.columns else 'Unknown'
+            if 'ChestPainType' in df.columns:
+                df['Type'] = df['ChestPainType'].fillna('Unknown').astype(str)
+            else:
+                df['Type'] = 'Unknown'
+        
+        # Convert all object columns to string for PyArrow compatibility
+        for col in df.select_dtypes(include=['object']).columns:
+            df[col] = df[col].astype(str)
         
         return df
     except Exception as e:
@@ -110,8 +118,11 @@ def clean_data(df):
     # One-hot encoding
     df_clean = pd.get_dummies(df_clean, 
                               columns=['ChestPainType', 'RestingECG', 'ST_Slope'],
-                              drop_first=True, 
-                              dtype=int)
+                              drop_first=True)
+    
+    # Ensure all columns are proper dtypes for PyArrow
+    for col in df_clean.select_dtypes(include=['object']).columns:
+        df_clean[col] = df_clean[col].astype(str)
     
     return df_clean
 
