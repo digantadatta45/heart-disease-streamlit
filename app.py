@@ -67,6 +67,10 @@ def load_raw_data():
         # Replace with your GitHub raw URL
         url = "https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/main/heart.csv"
         df = pd.read_csv(url)
+
+        # Convert the 'Type' column to string to avoid PyArrow errors
+        df['Type'] = df['Type'].astype(str)
+
         return df
     except:
         st.error("Error loading data from GitHub. Please check the URL.")
@@ -118,6 +122,7 @@ df_clean = clean_data(df_raw)
 if page == "📊 Data Overview":
     st.header("📊 Dataset Overview")
     
+    
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Total Records", df_raw.shape[0])
@@ -137,11 +142,11 @@ if page == "📊 Data Overview":
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Data Types")
-        st.dataframe(pd.DataFrame(df_raw.dtypes, columns=['Type']), use_container_width=True)
+        st.dataframe(pd.DataFrame(df_raw.dtypes, columns=['Type']), width='stretch')
     with col2:
         st.subheader("Missing Values")
         missing_df = pd.DataFrame(df_raw.isnull().sum(), columns=['Missing'])
-        st.dataframe(missing_df, use_container_width=True)
+        st.dataframe(missing_df, width='stretch')
         if missing_df['Missing'].sum() == 0:
             st.success("✅ No missing values found!")
 
@@ -293,7 +298,7 @@ elif page == "🔍 EDA":
                             marker=dict(color=['#2ecc71', '#e74c3c'])), row=1, col=2)
         
         fig.update_layout(height=400, showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         col1, col2 = st.columns(2)
         with col1:
@@ -326,7 +331,7 @@ elif page == "🔍 EDA":
                             marker_color='#e74c3c'), row=1, col=2)
         
         fig.update_layout(height=400, showlegend=True)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         # Statistics comparison
         col1, col2 = st.columns(2)
@@ -354,7 +359,7 @@ elif page == "🔍 EDA":
         ))
         
         fig.update_layout(height=700, title="Feature Correlation Matrix")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         st.subheader("Top Correlations with Heart Disease")
         disease_corr = correlation['HeartDisease'].sort_values(ascending=False)[1:]
@@ -369,7 +374,7 @@ elif page == "🔍 EDA":
         ))
         fig.update_layout(height=500, title="Feature Correlation with Heart Disease",
                          xaxis_title="Correlation Coefficient")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with tab4:
         st.subheader("Feature Importance Analysis")
@@ -395,10 +400,10 @@ elif page == "🔍 EDA":
         ))
         fig.update_layout(height=600, title="Feature Importance (Random Forest)",
                          xaxis_title="Importance Score")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
         st.write("*Top 5 Most Important Features:*")
-        st.dataframe(feature_importance.head(), use_container_width=True)
+        st.dataframe(feature_importance.head(), width='stretch')
 
 # Page 4: Model Training
 elif page == "🤖 Model Training":
@@ -460,7 +465,7 @@ elif page == "🤖 Model Training":
                         'accuracy': accuracy_score(y_test, y_pred),
                         'precision': precision_score(y_test, y_pred),
                         'recall': recall_score(y_test, y_pred),
-                        'f1_score': f1_score(y_test, y_pred),
+                        'f1': f1_score(y_test, y_pred),
                         'roc_auc': roc_auc_score(y_test, y_pred_proba)
                     }
                     
@@ -490,7 +495,7 @@ elif page == "🤖 Model Training":
                 })
                 
                 st.dataframe(metrics_df.style.highlight_max(axis=0, subset=['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC']).format("{:.4f}", subset=['Accuracy', 'Precision', 'Recall', 'F1 Score', 'ROC AUC']), 
-                            use_container_width=True)
+                            width='stretch')
                 
                 # Bar chart comparison
                 fig = go.Figure()
@@ -510,7 +515,7 @@ elif page == "🤖 Model Training":
                     yaxis_title="Score",
                     xaxis_title="Model"
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
                 
                 # Radar chart
                 fig = go.Figure()
@@ -519,7 +524,7 @@ elif page == "🤖 Model Training":
                     values = [results[model_name]['accuracy'],
                              results[model_name]['precision'],
                              results[model_name]['recall'],
-                             results[model_name]['f1_score'],
+                             results[model_name]['f1'],
                              results[model_name]['roc_auc']]
                     
                     fig.add_trace(go.Scatterpolar(
@@ -535,7 +540,7 @@ elif page == "🤖 Model Training":
                     height=500,
                     title="Model Performance Radar Chart"
                 )
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
     else:
         st.info("👈 Configure your models in the sidebar and click 'Train Models' to begin.")
 
@@ -588,7 +593,7 @@ elif page == "📈 Model Evaluation":
                 xaxis_title="Predicted",
                 yaxis_title="Actual"
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             
             tn, fp, fn, tp = cm.ravel()
             
@@ -625,7 +630,7 @@ elif page == "📈 Model Evaluation":
                 xaxis_title="False Positive Rate",
                 yaxis_title="True Positive Rate (Recall)"
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             
             st.info(f"📊 *AUC Score: {result['roc_auc']:.4f}* - The area under the ROC curve measures the model's ability to distinguish between classes. Higher is better (max = 1.0).")
         
@@ -676,9 +681,4 @@ elif page == "📈 Model Evaluation":
                 layer="below", line_width=0)
             
             fig.add_shape(type="rect",
-
                 x0=0, y0=0.5, x1=10)
-
-
-
-
