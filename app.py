@@ -64,13 +64,21 @@ page = st.sidebar.radio("Go to",
 def load_raw_data():
     """Load the raw heart.csv dataset from GitHub"""
     try:
-        # Replace with your GitHub raw URL
-        url = https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/refs/heads/main/heart.csv
+        # CORRECT URL - use this
+        url = "https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/main/heart.csv"
         df = pd.read_csv(url)
-
+        
+        # Convert the 'Type' column to string to avoid PyArrow errors
+        if 'Type' in df.columns:
+            df['Type'] = df['Type'].astype(str)
+        else:
+            # If Type column doesn't exist, create it from ChestPainType
+            df['Type'] = df['ChestPainType'].astype(str) if 'ChestPainType' in df.columns else 'Unknown'
+        
         return df
-    except:
-        st.error("Error loading data from GitHub. Please check the URL.")
+    except Exception as e:
+        st.error(f"❌ Error loading data from GitHub: {str(e)}")
+        st.info("💡 Please check your internet connection or try uploading the file manually.")
         return None
 
 @st.cache_data
@@ -679,7 +687,3 @@ elif page == "📈 Model Evaluation":
             
             fig.add_shape(type="rect",
                 x0=0, y0=0.5, x1=10)
-
-
-
-
