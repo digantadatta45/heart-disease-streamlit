@@ -2,7 +2,7 @@
 This is an interactive Streamlit app built to demonstrate machine learning models on a heart disease dataset. It predicts the likelihood of heart disease based on user-selected patient features.
 
 🚀 Live Demo  
-[Open the app](https://YOUR_STREAMLIT_APP_URL)
+[Open the app](https://heart-disease-app-shohanw3ab49cnfwrjnu6u.streamlit.app/)
 
 💻 Features  
 - Dataset preview (first 10 rows shown for convenience)  
