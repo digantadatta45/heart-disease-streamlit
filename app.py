@@ -129,10 +129,10 @@ if page == "📊 Data Overview":
         st.metric("Healthy Cases", len(df_raw) - df_raw['HeartDisease'].sum())
     
     st.subheader("Raw Dataset Preview")
-    st.dataframe(df_raw.head(10), use_container_width=True)
+    st.dataframe(df_raw.head(10), width='stretch')
     
     st.subheader("Dataset Statistics")
-    st.dataframe(df_raw.describe(), use_container_width=True)
+    st.dataframe(df_raw.describe(), width='stretch')
     
     col1, col2 = st.columns(2)
     with col1:
@@ -199,7 +199,7 @@ elif page == "🧹 Data Cleaning":
         st.write("*Outliers Detected (IQR Method):*")
         outlier_df = pd.DataFrame(list(outlier_counts.items()), 
                                   columns=['Feature', 'Outlier Count'])
-        st.dataframe(outlier_df, use_container_width=True)
+        st.dataframe(outlier_df, width='stretch')
         
         st.info("🔧 *Treatment Applied:* Capping method - outliers replaced with upper/lower bounds")
         
@@ -215,7 +215,7 @@ elif page == "🧹 Data Cleaning":
                             marker_color='#2ecc71'), row=1, col=2)
         
         fig.update_layout(height=400, showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with tab3:
         st.subheader("Categorical Encoding")
@@ -254,10 +254,10 @@ ST_Slope: Flat, Up (drop first)
         with col2:
             st.metric("Cleaned Shape", f"{df_clean.shape[0]} rows × {df_clean.shape[1]} columns")
         
-        st.dataframe(df_clean.head(20), use_container_width=True)
+        st.dataframe(df_clean.head(20), width='stretch')
         
         st.subheader("Cleaned Dataset Statistics")
-        st.dataframe(df_clean.describe(), use_container_width=True)
+        st.dataframe(df_clean.describe(), width='stretch')
         
         if st.button("📥 Download Cleaned Dataset"):
             csv = df_clean.to_csv(index=False)
@@ -678,6 +678,7 @@ elif page == "📈 Model Evaluation":
             fig.add_shape(type="rect",
 
                 x0=0, y0=0.5, x1=10)
+
 
 
 
