@@ -460,7 +460,7 @@ elif page == "🤖 Model Training":
                         'accuracy': accuracy_score(y_test, y_pred),
                         'precision': precision_score(y_test, y_pred),
                         'recall': recall_score(y_test, y_pred),
-                        'f1': f1_score(y_test, y_pred),
+                        'f1_score': f1_score(y_test, y_pred),
                         'roc_auc': roc_auc_score(y_test, y_pred_proba)
                     }
                     
@@ -678,5 +678,6 @@ elif page == "📈 Model Evaluation":
             fig.add_shape(type="rect",
 
                 x0=0, y0=0.5, x1=10)
+
 
 
