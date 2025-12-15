@@ -69,9 +69,6 @@ def load_raw_data():
 /main/heart.csv
         df = pd.read_csv(url)
 
-        # Convert the 'Type' column to string to avoid PyArrow errors
-        df['Type'] = df['Type'].astype(str)
-
         return df
     except:
         st.error("Error loading data from GitHub. Please check the URL.")
@@ -683,5 +680,6 @@ elif page == "📈 Model Evaluation":
             
             fig.add_shape(type="rect",
                 x0=0, y0=0.5, x1=10)
+
 
 
