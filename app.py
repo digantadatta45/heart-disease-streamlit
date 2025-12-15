@@ -65,7 +65,8 @@ def load_raw_data():
     """Load the raw heart.csv dataset from GitHub"""
     try:
         # Replace with your GitHub raw URL
-        url = https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/refs/heads/main/heart.csv
+        url = https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit
+/main/heart.csv
         df = pd.read_csv(url)
 
         # Convert the 'Type' column to string to avoid PyArrow errors
@@ -682,4 +683,5 @@ elif page == "📈 Model Evaluation":
             
             fig.add_shape(type="rect",
                 x0=0, y0=0.5, x1=10)
+
 
