@@ -118,8 +118,6 @@ df_clean = clean_data(df_raw)
 if page == "📊 Data Overview":
     st.header("📊 Dataset Overview")
     
-    st.info("💡 This application uses the *heart.csv* dataset. Upload it to GitHub and update the URL in the code.")
-    
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Total Records", df_raw.shape[0])
@@ -680,3 +678,4 @@ elif page == "📈 Model Evaluation":
             fig.add_shape(type="rect",
 
                 x0=0, y0=0.5, x1=10)
+
