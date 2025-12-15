@@ -65,7 +65,7 @@ def load_raw_data():
     """Load the raw heart.csv dataset from GitHub"""
     try:
         # Replace with your GitHub raw URL
-        url = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/heart.csv"
+        url = "https://raw.githubusercontent.com/digantadatta45/heart-disease-streamlit/main/heart.csv"
         df = pd.read_csv(url)
         return df
     except:
@@ -678,4 +678,5 @@ elif page == "📈 Model Evaluation":
                 layer="below", line_width=0)
             
             fig.add_shape(type="rect",
+
                 x0=0, y0=0.5, x1=10)
